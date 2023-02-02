@@ -5,6 +5,8 @@ using System.Text.Json;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
+//testest
+
 namespace RestAPI_SymfoniaERP
 {
     class Program
@@ -16,14 +18,14 @@ namespace RestAPI_SymfoniaERP
             var w1 = new WebAPI();
             DataCollector d1 = new DataCollector(w1.SessionToken);
 
-            foreach (var wa in d1.getWarehouseNamebyId(2)) 
+            foreach (var w in d1.getInventoryState("SKielce"))
             {
-                Console.WriteLine(wa.Name); 
+                Console.WriteLine(d1.getProduct(w.ProductId).Name);
             }
 
             w1.killSession();
             
-
+          
 
         }
 
