@@ -125,6 +125,8 @@ public class DataCollector
         return myDeserializedClass;
     }
 
+   // public void updateProduct()
+
 
 }
 

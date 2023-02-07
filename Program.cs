@@ -18,82 +18,27 @@ namespace RestAPI_SymfoniaERP
             var w1 = new WebAPI();
             DataCollector d1 = new DataCollector(w1.SessionToken);
 
-            foreach (var w in d1.getInventoryState("SKielce"))
-            {
-                Console.WriteLine(d1.getProduct(w.ProductId).Name);
-            }
+            //foreach (var w in d1.getInventoryState("SKielce"))
+            //{
+            //    if (w1.checkSessionStateAlive())
+            //        Console.WriteLine(d1.getProduct(w.ProductId).Name);
+            //    //else
+            //        //w1 = new WebAPI();
+            //        //d1 = new DataCollector(w1.SessionToken);
+            //}
+
+            var csv = new CSVReader();
+            csv.writeCSV(d1.getProduct(67522)); 
 
             w1.killSession();
+
+            //var csv = new CSVReader("C:\\Users\\adminali\\source\\repos\\RestAPI_SymfoniaERP\\mags.csv");
+            //csv.readCSV();
             
           
 
         }
-
-       /* public static string getSessionToken() 
-        {
-            var baseurl = "https://alibaba-rds2.alibaba.pl:8181/api/Sessions/OpenNewSession";
-            var options = new RestClientOptions(baseurl)
-            {
-
-                RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
-            };
-            var token = "811957b2-5861-4667-aa5f-e20ec3a528bd";
-            var client = new RestClient(options);
-            client.Authenticator = new RestSharp.Authenticators.OAuth2.OAuth2AuthorizationRequestHeaderAuthenticator(token, "Application");
-            var request = new RestRequest();
-            request.Method = Method.Get;
-            request.AddParameter("deviceName", "TestC");
-            var response = client.Execute(request);
-            string t = response.Content.Substring(1, response.Content.Length - 2);
-
-            return t;
-        }
-
-        public static void killSession(string session) 
-        {
-            var baseurl = "https://alibaba-rds2.alibaba.pl:8181/api/Sessions/CloseSession"; 
-            var options = new RestClientOptions(baseurl)
-            {
-
-                RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
-            };
-            var token = session;
-            var client = new RestClient(options);
-            client.Authenticator = new RestSharp.Authenticators.OAuth2.OAuth2AuthorizationRequestHeaderAuthenticator(token, "Session");
-            var request = new RestRequest();
-            request.Method = Method.Get;
-            request.AddParameter("deviceName", "TestC");
-            var response = client.Execute(request);
-
-            var myDeserializedClass = JsonConvert.DeserializeObject<Content>(response.Content);
-            
-         
-      
-            
-        }
-       */
-        public static void getData(string session, string baseurl)
-        {
-            var options = new RestClientOptions(baseurl)
-            {
-
-                RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true
-            };
-            var token = session;
-            var client = new RestClient(options);
-            client.Authenticator = new RestSharp.Authenticators.OAuth2.OAuth2AuthorizationRequestHeaderAuthenticator(token, "Session");
-            var request = new RestRequest();
-            request.Method = Method.Get;
-            request.AddParameter("deviceName", "TestC");
-            var response = client.Execute(request);
-
-
-            var myDeserializedClass = JsonConvert.DeserializeObject<Product>(response.Content);
-            Console.WriteLine(myDeserializedClass.UnitsOfMeasurement.DefaultUM); 
-
-
-
-        }
+       
 
        
     }
