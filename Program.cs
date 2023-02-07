@@ -4,6 +4,8 @@ using RestSharp;
 using System.Text.Json;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Syncfusion.XlsIO;
+using System.IO;
 
 //testest
 
@@ -18,6 +20,10 @@ namespace RestAPI_SymfoniaERP
             var w1 = new WebAPI();
             DataCollector d1 = new DataCollector(w1.SessionToken);
 
+            IList<Product> reports = d1.getProducts("SKielce");
+
+            w1.killSession();
+
             //foreach (var w in d1.getInventoryState("SKielce"))
             //{
             //    if (w1.checkSessionStateAlive())
@@ -27,15 +33,39 @@ namespace RestAPI_SymfoniaERP
             //        //d1 = new DataCollector(w1.SessionToken);
             //}
 
-            var csv = new CSVReader();
-            csv.writeCSV(d1.getProduct(67522)); 
+            //using (ExcelEngine excelEngine = new ExcelEngine())
+            //{
+            //    IApplication application = excelEngine.Excel;
+            //    application.DefaultVersion = ExcelVersion.Excel2013;
+            //    IWorkbook workbook = application.Workbooks.Create(1);
+            //    IWorksheet worksheet = workbook.Worksheets[0];
 
-            w1.killSession();
+            //    //Import the data to worksheet
+            //    IList<Product> reports = d1.getProducts("STest");
+            //    worksheet.ImportData(reports, 2, 1, false);
 
-            //var csv = new CSVReader("C:\\Users\\adminali\\source\\repos\\RestAPI_SymfoniaERP\\mags.csv");
-            //csv.readCSV();
-            
-          
+            //    #region Save
+            //    //Saving the workbook
+            //    FileStream outputStream = new FileStream("C:\\Users\\adminali\\source\\repos\\RestAPI_SymfoniaERP\\ImportDataView.xlsx", FileMode.Create, FileAccess.Write);
+            //    workbook.SaveAs(outputStream);
+            //    #endregion
+
+            //    //Dispose streams
+            //    outputStream.Dispose();
+
+            //    System.Diagnostics.Process process = new System.Diagnostics.Process();
+            //    process.StartInfo = new System.Diagnostics.ProcessStartInfo("C:\\Users\\adminali\\source\\repos\\RestAPI_SymfoniaERP\\ImportDataView.xlsx")
+            //    {
+            //        UseShellExecute = true
+            //    };
+            //    process.Start();
+            //}
+
+
+
+
+
+
 
         }
        

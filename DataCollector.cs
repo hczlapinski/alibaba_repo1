@@ -13,10 +13,10 @@ public class DataCollector
    
 	public DataCollector(string sessionToken)
 	{
-		this.SessionToken = sessionToken;
+		SessionToken = sessionToken;
 	}
 
-	public string SessionToken;
+	public static string SessionToken;
 
     //Warehouse
 	public List<Warehouse> getWarehouses() 
@@ -41,9 +41,10 @@ public class DataCollector
     }
 
     //InventoryStates
-    public List<InventoryState> getInventoryState(string magCode)
+    static public List<InventoryState> getInventoryState(string magCode)
     {
-        var baseUrl = "https://alibaba-rds2.alibaba.pl:8181/api/InventoryStates?code="+magCode;
+        var baseUrl = "https://alibaba-rds2.alibaba.pl:8181/api/InventoryStates/ByWarehouse?code=" + magCode;
+        //Console.WriteLine(baseUrl);
         var options = new RestClientOptions(baseUrl)
         {
 
@@ -64,7 +65,8 @@ public class DataCollector
 
     public List<InventoryState> getInventoryState(int magId)
     {
-        var baseUrl = "https://alibaba-rds2.alibaba.pl:8181/api/InventoryStates?id=" + magId; 
+        var baseUrl = "https://alibaba-rds2.alibaba.pl:8181/api/InventoryStates/ByWarehouse?Id=" + magId;
+        
         var options = new RestClientOptions(baseUrl)
         {
 
@@ -86,6 +88,7 @@ public class DataCollector
     public Product getProduct(int pId)
     {
         var baseUrl = "https://alibaba-rds2.alibaba.pl:8181/api/Products?id=" + pId;
+        //Console.WriteLine(baseUrl); 
         var options = new RestClientOptions(baseUrl)
         {
 
@@ -106,7 +109,7 @@ public class DataCollector
 
     public Product getProduct(string pCode)
     {
-        var baseUrl = "https://alibaba-rds2.alibaba.pl:8181/api/Products?id=" + pCode;
+        var baseUrl = "https://alibaba-rds2.alibaba.pl:8181/api/Products?code=" + pCode;
         var options = new RestClientOptions(baseUrl)
         {
 
@@ -125,8 +128,29 @@ public class DataCollector
         return myDeserializedClass;
     }
 
-   // public void updateProduct()
 
+
+
+    public IList<Product> getProducts(string magCode)
+    {
+
+        List<InventoryState> invstates = getInventoryState(magCode); 
+
+        List<Product> products = new List<Product>(); 
+
+        foreach(var w in invstates)
+        {
+
+            if (w.AmountInStore > 0)
+            {
+                products.Add(getProduct(w.ProductId));
+                Console.WriteLine(w.ProductId);
+            }
+        }
+
+        //Console.WriteLine(d1.getProduct(w.ProductId).Name);
+        return products;
+    }
 
 }
 
