@@ -4,8 +4,8 @@ using RestSharp;
 using System.Text.Json;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using Syncfusion.XlsIO;
 using System.IO;
+using ClosedXML.Excel;
 
 //testest
 
@@ -17,12 +17,21 @@ namespace RestAPI_SymfoniaERP
         static void Main(string[] args)
         {
 
-            var w1 = new WebAPI();
-            DataCollector d1 = new DataCollector(w1.SessionToken);
+            var pname = new ProductName("rossmann POa betle V34 ru/123123 sn / 2323");
+            if (pname.nameCategoryPOSBeetle())
+                Console.WriteLine("ok");
 
-            IList<Product> reports = d1.getProducts("SKielce");
+            var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Sample Sheet");
+            worksheet.Cell("A1").Value = "Hello World!";
+            workbook.SaveAs("C:\\Users\\adminali\\source\\repos\\RestAPI_SymfoniaERP\\HelloWorld.xlsx");
 
-            w1.killSession();
+            //var w1 = new WebAPI();
+            //DataCollector d1 = new DataCollector(w1.SessionToken);
+
+            //IList<Product> reports = d1.getProducts("SKielce");
+
+            //w1.killSession();
 
             //foreach (var w in d1.getInventoryState("SKielce"))
             //{
@@ -60,11 +69,6 @@ namespace RestAPI_SymfoniaERP
             //    };
             //    process.Start();
             //}
-
-
-
-
-
 
 
         }
