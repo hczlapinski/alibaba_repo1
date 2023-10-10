@@ -1,80 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using CsvHelper;
 using CsvHelper.Configuration;
+using System.IO;
+using System.Collections.Generic;
 
-
-public class CSVReader
+public class CSVRead
 {
-	public string urlPath; 
+	//public string Path;
 
-	public CSVReader(string urlPath)
-	{
-		this.urlPath = urlPath; 
-	}
-
-	public CSVReader()
+	public CSVRead()
 	{
 		
 	}
 
-	public void readCSV() 
-	{
-		var csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture)
-		{
-			HasHeaderRecord = false,
-			Comment = '#',
-			AllowComments = true,
-			Delimiter = ";",
-		};
-
-		using var streamReader = File.OpenText(urlPath);
-		using var csvReader = new CsvHelper.CsvReader(streamReader, csvConfig);
-
-		while (csvReader.Read())
-		{
-			var Id = csvReader.GetField(0);
-			var Mag = csvReader.GetField(1);
-			
-
-			Console.WriteLine($"{Id} {Mag}");
-		}
-	}
-
-   public void writeCSV(Product product)
+	public List<string> readCSV1d(string path)
     {
+        string t = "";
+        List<string> mags = new List<string>(); 
+        var csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture)
+        {
+            HasHeaderRecord = false,
+            Comment = '#',
+            AllowComments = true,
+            Delimiter = ";",
+        };
 
-		var csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture)
-		{
-			HasHeaderRecord = false,
-			Comment = '#',
-			AllowComments = true,
-			Delimiter = ";",
-			
-		};
+        
 
-	
+        using var streamReader = File.OpenText(path);
+        using var csvReader = new CsvReader(streamReader, csvConfig);
 
-		using (var mem = new MemoryStream())
-		using (var writer = new StreamWriter(mem))
-		using (var csvWriter = new CsvWriter(writer,csvConfig))
-		{
-			
-		
+        
 
-			csvWriter.WriteHeader<Product>();
-			//csvWriter.WriteRecords()
-			//csvWriter.WriteField(product.Name);
+        while (csvReader.Read())
+        {
+           t = csvReader.GetField(0);
+           mags.Add(csvReader.GetField(0)); 
+
+            //Console.WriteLine($"{t}");
+        }
+        mags.Remove("Mag");
+        return mags;
+        
+    }
+
+    public List<string> readCSV2d(string path,int col)
+    {
+        
+        List<string> mags = new List<string>();
+        var csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture)
+        {
+            HasHeaderRecord = false,
+            Comment = '#',
+            AllowComments = true,
+            Delimiter = ";",
+        };
 
 
 
-			writer.Flush();
-			var result = Encoding.UTF8.GetString(mem.ToArray());
-			Console.WriteLine(result);
-		}
-	}
+        using var streamReader = File.OpenText(path);
+        using var csvReader = new CsvReader(streamReader, csvConfig);
+
+
+
+        while (csvReader.Read())
+        {
+           
+            for(int i = 0; i < col; i++)
+                mags.Add(csvReader.GetField(i));
+
+          
+        }
+        mags.Remove("Mag");
+        return mags;
+
+    }
+
+
 }
