@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "gDS8zk4XCNbyPrr4bOn5tQIIx4WykY3m6teDeKEGzhmU/Xp5j5kzvMbqQ5E+D5QUP5aEitmXuDh4tAlAp3jIKQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\adminali\\source\\repos\\Alibaba_repo1\\ERP_API_connect\\ERP_API_connect.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\adminali\\.nuget\\packages\\restsharp\\110.2.0\\restsharp.110.2.0.nupkg.sha512",
+    "C:\\Users\\adminali\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\adminali\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
+    "C:\\Users\\adminali\\.nuget\\packages\\system.text.json\\7.0.2\\system.text.json.7.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP_API_connect", "ERP_API_connect.csproj", "{3882027D-3C52-4540-BBED-2412B0B0D8AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3882027D-3C52-4540-BBED-2412B0B0D8AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3882027D-3C52-4540-BBED-2412B0B0D8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3882027D-3C52-4540-BBED-2412B0B0D8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3882027D-3C52-4540-BBED-2412B0B0D8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD18FFC2-A968-40A1-9EB2-1E07368D6E18}
+	EndGlobalSection
+EndGlobal
