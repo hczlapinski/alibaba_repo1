@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using ClosedXML.Excel;
+using System.Text.RegularExpressions;
+using System.Text;
+
 
 
 //testest
@@ -28,6 +31,8 @@ namespace RestAPI_SymfoniaERP
             }*/
 
 
+            /*AddFunctions adf1 = new AddFunctions();
+            string[] tab1 = adf1.parseName("Drzwiczki małe v2 RAL7040 Swipbox KD/101-00300");*/
 
 
             //var pname = new ProductName("rossmann POa beetle V34 ru/123123 sn / 2323");
@@ -59,84 +64,126 @@ namespace RestAPI_SymfoniaERP
 
             //
 
+            /*  var w1 = new WebAPI();
+              DataCollector d1 = new DataCollector(w1.SessionToken);
+              List<List<string>> table = new List<List<string>>();
+
+
+
+              int x = 0;
+                 foreach (var w in d1.getInventoryState("SKalisz"))
+                   {
+                       if (w1.checkSessionStateAlive())
+                       {   
+
+                           if (w.AmountInStore > 0)
+                           {
+
+                          table.Add(new List<string>());
+
+                          //Console.Write(d1.getProduct(w.ProductId).Name +" - ");
+                          //Console.WriteLine(d1.getProduct(w.ProductId).Code);
+
+                          table[x].Add(d1.getProduct(w.ProductId).Code);
+                          table[x].Add(d1.getProduct(w.ProductId).Name);
+                          table[x].Add(w.AmountInStore.ToString());
+
+                          x++;
+                          Console.SetCursorPosition(0, 0);
+                          Console.Write(".");
+                           }
+                       }
+                       else
+                       {
+                           w1 = new WebAPI();
+                           d1 = new DataCollector(w1.SessionToken);
+                       }
+                   }
+                   w1.killSession();
+              Console.WriteLine("");
+                  for (int i = 0; i < table.Count; i++)
+                  {
+                      for (int j = 0; j < table[i].Count; j++)
+                      {
+                          Console.Write(table[i][j] + " ");
+                      }
+                      Console.WriteLine();
+                  }
+  */
+
             var w1 = new WebAPI();
             DataCollector d1 = new DataCollector(w1.SessionToken);
             List<List<string>> table = new List<List<string>>();
 
-            
-
             int x = 0;
-               foreach (var w in d1.getInventoryState("SKalisz"))
-                 {
-                     if (w1.checkSessionStateAlive())
-                     {   
-                        
-                         if (w.AmountInStore > 0)
-                         {
-                            Console.SetCursorPosition(0, 0);
-                            Console.Write("");
-                        table.Add(new List<string>());
+            foreach (var w in d1.getInventoryState("SKielce"))
+            {
+                if (w1.checkSessionStateAlive())
+                {
 
-                        //Console.Write(d1.getProduct(w.ProductId).Name +" - ");
-                        //Console.WriteLine(d1.getProduct(w.ProductId).Code);
+                    if (w.AmountInStore > 0)
+                    {
+
+                        table.Add(new List<string>());                    
 
                         table[x].Add(d1.getProduct(w.ProductId).Code);
                         table[x].Add(d1.getProduct(w.ProductId).Name);
                         table[x].Add(w.AmountInStore.ToString());
+                        table[x].Add(d1.getProduct(w.ProductId).Catalog.Name);
 
                         x++;
                         Console.SetCursorPosition(0, 0);
                         Console.Write(".");
-                         }
-                     }
-                     else
-                     {
-                         w1 = new WebAPI();
-                         d1 = new DataCollector(w1.SessionToken);
-                     }
-                 }
-                 w1.killSession();
-            Console.WriteLine("");
-                for (int i = 0; i < table.Count; i++)
-                {
-                    for (int j = 0; j < table[i].Count; j++)
-                    {
-                        Console.Write(table[i][j] + " ");
-                    }
-                    Console.WriteLine();
-                }
-
-
-                /*// create a 3x3 table of integers using a multidimensional list
-                List<List<int>> table = new List<List<int>>(3);
-
-                for (int i = 0; i < 3; i++)
-                {
-                    table.Add(new List<int>(5));
-
-                    for (int j = 0; j < 5; j++)
-                    {
-                        table[i].Add(i);
                     }
                 }
-                // set some values in the table
-                table[0][0] = 1;
-                table[1][1] =5;
-                table[2][2] = 3;
-                // print the table
-                for (int i = 0; i < table.Count; i++)
+                else
                 {
-                    for (int j = 0; j < table[i].Count; j++)
-                    {
-                        Console.Write(table[i][j] + " ");
-                    }
-                    Console.WriteLine();
-                }*/
-
+                    w1 = new WebAPI();
+                    d1 = new DataCollector(w1.SessionToken);
+                }
             }
-       
 
-       
+            AddFunctions adf1 = new AddFunctions();
+            var tab1 = System.Array.Empty<string>();
+            
+
+            String file = @"C:\Dane chronione\Output.csv";
+            String separator = ",";
+            StringBuilder output = new StringBuilder();
+            String[] headings = { "Kod", "Name", "SN", "RU","KD","Katalog","QTY" };
+            output.AppendLine(string.Join(separator, headings));
+
+            for (int i = 0; i < table.Count; i++)
+            {
+                
+                    tab1 = adf1.parseName(table[i][1]);
+                    String[] newLine = { table[i][0], tab1[0], tab1[1], tab1[2], tab1[3], table[i][3], table[i][2] };
+                    output.AppendLine(string.Join(separator, newLine));
+            
+            }
+
+          
+           
+
+
+
+            try
+            {
+                File.Delete(file);
+                File.AppendAllText(file, output.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Data could not be written to the CSV file.");
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            Console.WriteLine("The data has been successfully saved to the CSV file");
+
+        }
+
+
+
     }
 
 }
