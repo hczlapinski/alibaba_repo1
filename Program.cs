@@ -132,7 +132,7 @@ namespace RestAPI_SymfoniaERP
                         table[x].Add(d1.getProduct(w.ProductId).Catalog.Name);
 
                         x++;
-                        Console.SetCursorPosition(0, 0);
+                        //Console.SetCursorPosition(0, 0);
                         Console.Write(".");
                     }
                 }

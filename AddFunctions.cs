@@ -25,7 +25,7 @@ namespace RestAPI_SymfoniaERP
             int ruindex = str1.IndexOf("ru/");
             int kdindex = str1.IndexOf("kd/");
             string namep, snp, rup, kdp = "";
-
+            int sl = 0;
 
             if (snindex < ruindex && snindex != -1)
             {
@@ -66,7 +66,12 @@ namespace RestAPI_SymfoniaERP
                     {
                         if (snindex != -1)
                         {
-                            snp = str1.Substring(snindex + 3, kdindex - snindex - 3);
+                            if (kdindex - snindex - 3 <= 0)
+                                sl = snindex + 3;
+                            else
+                                sl = kdindex - snindex - 3;
+
+                            snp = str1.Substring(snindex + 3, sl);
                             namep = str1.Substring(0, snindex - 1);
                             kdp = str1.Substring(kdindex + 3, str1.Length - kdindex - 4);
                             rup = "brak";
