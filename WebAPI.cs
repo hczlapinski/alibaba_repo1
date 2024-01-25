@@ -13,6 +13,11 @@ public class WebAPI
 
 	public string SessionToken { get { return sessionToken;  } }
 
+    public static string[] pnums_del = {"RKAB007","RKAB009","RKAB003","RKAB004","RKAB008","RKAB005",
+        "RKAB001","RKAB002","RKAB006","RKAB010","RTEST","Ambient Sensor",
+        "CA-DPDP-10CC-0010-BK","SAVKABELCL-92","SAVKABELCL-103","CBA-U21-S07ZAR",
+        "CT8G4DFRA266","RKAB003","RKAB008","RKAB005","RKAB001","RKAB006","RKAB010"};
+
 	public WebAPI()
 	{
 		this.sessionToken = getSessionToken();
@@ -87,5 +92,15 @@ public class WebAPI
         else
             return true;
 
+    }
+    public static bool deletedNums(string pn)
+    {
+        foreach(var w in pnums_del)
+        {
+            if (w == pn)
+                return true;
+            
+        }
+        return false;
     }
 }

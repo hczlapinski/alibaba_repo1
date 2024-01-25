@@ -11,6 +11,7 @@ using System.Text;
 
 
 
+
 //testest
 
 namespace RestAPI_SymfoniaERP
@@ -109,76 +110,93 @@ namespace RestAPI_SymfoniaERP
                       }
                       Console.WriteLine();
                   }
+
   */
 
-            var w1 = new WebAPI();
-            DataCollector d1 = new DataCollector(w1.SessionToken);
-            List<List<string>> table = new List<List<string>>();
-
-            int x = 0;
-            foreach (var w in d1.getInventoryState("SKielce"))
-            {
-                if (w1.checkSessionStateAlive())
+                var w1 = new WebAPI();
+                DataCollector d1 = new DataCollector(w1.SessionToken);
+                List<List<string>> table = new List<List<string>>();
+            string mag = "SLublin";
+                int x = 0;
+                foreach (var w in d1.getInventoryState(mag))
                 {
-
-                    if (w.AmountInStore > 0)
+                    if (w1.checkSessionStateAlive())
                     {
 
-                        table.Add(new List<string>());                    
+                        if (w.AmountInStore > 0 && !WebAPI.deletedNums(d1.getProduct(w.ProductId).Code))
+                        {
 
-                        table[x].Add(d1.getProduct(w.ProductId).Code);
-                        table[x].Add(d1.getProduct(w.ProductId).Name);
-                        table[x].Add(w.AmountInStore.ToString());
-                        table[x].Add(d1.getProduct(w.ProductId).Catalog.Name);
+                            table.Add(new List<string>());                    
 
-                        x++;
-                        //Console.SetCursorPosition(0, 0);
-                        Console.Write(".");
+                            table[x].Add(d1.getProduct(w.ProductId).Code.Replace(",", "-"));
+                            table[x].Add(d1.getProduct(w.ProductId).Name.Replace(","," "));
+                            table[x].Add(w.AmountInStore.ToString());
+                            table[x].Add(d1.getProduct(w.ProductId).Catalog.Name);
+
+                            x++;
+                            //Console.SetCursorPosition(0, 0);
+                            Console.Write(".");
+                        }
+                    }
+                    else
+                    {
+                        w1 = new WebAPI();
+                        d1 = new DataCollector(w1.SessionToken);
                     }
                 }
-                else
-                {
-                    w1 = new WebAPI();
-                    d1 = new DataCollector(w1.SessionToken);
-                }
-            }
+
+                DateTime currentDateTime = DateTime.Now;
+                
 
             AddFunctions adf1 = new AddFunctions();
-            var tab1 = System.Array.Empty<string>();
-            
+                var tab1 = System.Array.Empty<string>();
 
-            String file = @"C:\Dane chronione\Output.csv";
-            String separator = ",";
-            StringBuilder output = new StringBuilder();
-            String[] headings = { "Kod", "Name", "SN", "RU","KD","Katalog","QTY" };
+
+                String file = @"C:\Dane chronione\"+mag+".csv";
+                String separator = ",";
+                StringBuilder output = new StringBuilder();
+
+            /*String[] headings = { "Kod", "Name", "SN", "RU/INW","KD","PN","Katalog","QTY","Magazyn","Sprawny" };
             output.AppendLine(string.Join(separator, headings));
 
             for (int i = 0; i < table.Count; i++)
             {
-                
-                    tab1 = adf1.parseName(table[i][1]);
-                    String[] newLine = { table[i][0], tab1[0], tab1[1], tab1[2], tab1[3], table[i][3], table[i][2] };
-                    output.AppendLine(string.Join(separator, newLine));
-            
-            }
 
-          
-           
+                    tab1 = adf1.parseName(table[i][1]);
+                    String[] newLine = { table[i][0], tab1[0], tab1[1], tab1[2], tab1[3],"", table[i][3], table[i][2], mag, tab1[4] };
+                    output.AppendLine(string.Join(separator, newLine));
+
+            }
+            */
+
+            String[] headings = { "Kod", "Name", "SN", "RU", "INW", "KD", "PN", "Katalog", "QTY", "Magazyn", "Sprawny" };
+            output.AppendLine(string.Join(separator, headings));
+
+            for (int i = 0; i < table.Count; i++)
+            {
+
+                tab1 = adf1.parseName2(table[i][1]);
+                String[] newLine = { table[i][0], table[i][1], tab1[0], tab1[1], tab1[3], tab1[2], tab1[4], table[i][3], table[i][2], mag, tab1[5] };
+                output.AppendLine(string.Join(separator, newLine));
+
+            }
 
 
 
             try
-            {
-                File.Delete(file);
-                File.AppendAllText(file, output.ToString());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Data could not be written to the CSV file.");
-                Console.WriteLine(ex.Message);
-                return;
-            }
-            Console.WriteLine("The data has been successfully saved to the CSV file");
+                {
+                    File.Delete(file);
+                    File.AppendAllText(file, output.ToString());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Data could not be written to the CSV file.");
+                    Console.WriteLine(ex.Message);
+                    return;
+                }
+                Console.WriteLine("The data has been successfully saved to the CSV file");
+
+            
 
         }
 
